@@ -1,0 +1,65 @@
+/**
+ * index.css – Global styles and font declarations.
+ *
+ * Marathi/Devanagari text uses Noto Serif Devanagari (Google Fonts).
+ * English serif text uses Noto Serif (Google Fonts).
+ * Both are open-source and support full Devanagari shaping.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap");
+
+/* ───── reset ───── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: "Noto Serif", Georgia, "Times New Roman", serif;
+  background: #f0f2f5;
+  color: #1a1a2e;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ───── app wrapper ───── */
+.app {
+  padding: 24px 16px;
+  min-height: 100vh;
+}
+
+@media (max-width: 800px) {
+  .app {
+    padding: 12px 8px;
+  }
+}
+
+/* ───── print: base reset ───── */
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .app {
+    padding: 0;
+    min-height: auto;
+  }
+}
