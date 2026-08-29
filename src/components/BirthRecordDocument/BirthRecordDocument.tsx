@@ -24,12 +24,20 @@ type Props = {
   data: BirthRecordData;
 };
 
-/* ───────────────────────── helper ───────────────────────── */
+/* ───────────────────────── helpers ──────────────────────── */
 const lbl = (marathi: string, english: string) => (
   <>
     <span className="marathi">{marathi}</span> / {english}:
   </>
 );
+
+/** Convert YYYY-MM-DD (from <input type="date">) → DD-MM-YYYY for display. */
+function fmtDate(iso: string): string {
+  if (!iso) return "";
+  const [y, m, d] = iso.split("-");
+  if (!y || !m || !d) return iso; // already in another format
+  return `${d}-${m}-${y}`;
+}
 
 /* ───────────────────────── component ───────────────────── */
 export default function BirthRecordDocument({ data }: Props) {
@@ -154,7 +162,7 @@ export default function BirthRecordDocument({ data }: Props) {
               {lbl("जन्म दिनांक", "DATE OF BIRTH")}
             </label>
             <div className="field-value-block">
-              <span className="field-value">{d.dateOfBirth}</span>
+              <span className="field-value">{fmtDate(d.dateOfBirth)}</span>
               {d.dateOfBirthWords && (
                 <span className="field-value-words">
                   {d.dateOfBirthWords}
@@ -278,7 +286,7 @@ export default function BirthRecordDocument({ data }: Props) {
             <label className="field-label bold">
               {lbl("नोंदणी दिनांक", "DATE OF REGISTRATION")}
             </label>
-            <span className="field-value">{d.dateOfRegistration}</span>
+            <span className="field-value">{fmtDate(d.dateOfRegistration)}</span>
           </div>
         </div>
 
@@ -301,14 +309,14 @@ export default function BirthRecordDocument({ data }: Props) {
                 "DATE OF ISSUE"
               )}
             </label>
-            <span className="field-value">{d.dateOfIssue}</span>
+            <span className="field-value">{fmtDate(d.dateOfIssue)}</span>
           </div>
         </div>
       </section>
 
       {/* ───── updated-on ───── */}
       <div className="updated-on">
-        Updated On : {d.dateOfIssue || "—"}
+        Updated On : {fmtDate(d.dateOfIssue) || "—"}
       </div>
 
       {/* ───── footer ───── */}
@@ -347,7 +355,7 @@ export default function BirthRecordDocument({ data }: Props) {
       {/* ───── digital signature ───── */}
       <div className="digital-signature">
         <p>Digitally signed by DS SOLAPUR MUNICIPAL CORPORATION</p>
-        <p>Date: {d.dateOfIssue ? d.dateOfIssue.replace(/-/g, ".") + " 18:26:10 +05:30" : "—"}</p>
+        <p>Date: {d.dateOfIssue ? fmtDate(d.dateOfIssue).replace(/-/g, ".") + " 18:26:10 +05:30" : "—"}</p>
         <p>Reason: Issued By Dr. Manjiri Kulkarni</p>
         <p>Location: Birth &amp; Death Department, Solapur Municipal Corporation, Solapur</p>
       </div>

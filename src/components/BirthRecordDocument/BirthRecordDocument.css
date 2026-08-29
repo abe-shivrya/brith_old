@@ -2,12 +2,9 @@
  * BirthRecordDocument.css
  *
  * Styles for the authorised birth-certificate document layout.
- *
  * Page: A4 portrait (210 × 297 mm).
- * At 96 DPI this maps to 794 × 1123 px.
  *
- * Coordinate references (from PDF at 2× A4 = 1191 × 1684 pt):
- *   Scale factor: ÷1.5
+ * All sizes are tuned so the entire document fits on ONE page.
  */
 
 /* ───── font-face declarations ───── */
@@ -16,17 +13,21 @@
 /* ───── document container ───── */
 .birth-doc {
   width: 210mm;
-  min-height: 297mm;
+  height: 297mm;
   margin: 0 auto;
-  padding: 10mm 12mm 8mm;
+  padding: 5mm 10mm 4mm;
   background: #fff;
   color: #000;
   font-family: "Noto Serif", "DejaVu Serif", Georgia, "Times New Roman", serif;
-  font-size: 11pt;
-  line-height: 1.35;
+  font-size: 9pt;
+  line-height: 1.3;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+  /* Double-line border matching the authorised template */
+  border: 2px solid #000;
+  outline: 1px solid #000;
+  outline-offset: 3px;
 }
 
 /* ───── Marathi helper ───── */
@@ -45,15 +46,15 @@
 .doc-header {
   position: relative;
   text-align: center;
-  margin-bottom: 4mm;
-  min-height: 38mm;
+  margin-bottom: 2mm;
+  height: 28mm;
 }
 
 .serial-no {
   position: absolute;
   left: 0;
   top: 0;
-  font-size: 9pt;
+  font-size: 7pt;
   text-align: left;
 }
 
@@ -61,27 +62,27 @@
   position: absolute;
   right: 0;
   top: 0;
-  font-size: 9pt;
+  font-size: 7pt;
   text-align: right;
 }
 
 .form-no small {
-  font-size: 8pt;
+  font-size: 6.5pt;
 }
 
 .logo-left {
   position: absolute;
-  left: 15mm;
-  top: 8mm;
-  width: 20mm;
+  left: 12mm;
+  top: 5mm;
+  width: 16mm;
   height: auto;
 }
 
 .logo-right {
   position: absolute;
-  right: 15mm;
-  top: 5mm;
-  width: 22mm;
+  right: 12mm;
+  top: 3mm;
+  width: 18mm;
   height: auto;
 }
 
@@ -91,8 +92,8 @@
 }
 
 .heading-line {
-  font-size: 11pt;
-  line-height: 1.5;
+  font-size: 9pt;
+  line-height: 1.35;
   margin: 0;
   padding: 0;
 }
@@ -100,67 +101,67 @@
 /* ───── title ───── */
 .doc-title {
   text-align: center;
-  margin: 3mm 0 2mm;
+  margin: 1.5mm 0 1mm;
 }
 
 .title-main {
-  font-size: 16pt;
-  margin-bottom: 1mm;
+  font-size: 14pt;
+  margin-bottom: 0.5mm;
 }
 
 .title-sub {
-  font-size: 14pt;
-  letter-spacing: 0.5pt;
+  font-size: 12pt;
+  letter-spacing: 0.4pt;
 }
 
 /* ───── legal notice ───── */
 .legal-notice {
-  margin: 2mm 0;
-  padding: 1mm 0;
+  margin: 1mm 0;
+  padding: 0.5mm 0;
   border-top: 0.5pt solid #000;
 }
 
 .legal-text {
-  font-size: 8.5pt;
-  line-height: 1.4;
-  margin: 1mm 0;
+  font-size: 7pt;
+  line-height: 1.3;
+  margin: 0.5mm 0;
 }
 
 .legal-text-small {
-  font-size: 8.5pt;
-  line-height: 1.4;
-  margin: 1mm 0;
+  font-size: 7pt;
+  line-height: 1.3;
+  margin: 0.5mm 0;
 }
 
 /* ───── certification ───── */
 .certification {
-  margin: 2mm 0;
+  margin: 1mm 0;
 }
 
 .cert-text {
-  font-size: 8.5pt;
-  line-height: 1.4;
-  margin: 1mm 0;
+  font-size: 7pt;
+  line-height: 1.3;
+  margin: 0.5mm 0;
 }
 
 .cert-text-small {
-  font-size: 8.5pt;
-  line-height: 1.4;
-  margin: 1mm 0;
+  font-size: 7pt;
+  line-height: 1.3;
+  margin: 0.5mm 0;
 }
 
 /* ───── data fields ───── */
 .data-fields {
-  margin: 4mm 0 2mm;
+  margin: 2mm 0 1mm;
 }
 
 .field-row {
-  margin-bottom: 2.5mm;
+  margin-bottom: 1.5mm;
 }
 
 .field-row.two-col {
   display: flex;
-  gap: 4mm;
+  gap: 3mm;
 }
 
 .field-row.two-col .field-cell {
@@ -168,7 +169,7 @@
 }
 
 .field-cell {
-  min-height: 4mm;
+  min-height: 3mm;
 }
 
 .field-cell.full-width {
@@ -177,33 +178,33 @@
 
 .field-label {
   display: block;
-  font-size: 9pt;
-  margin-bottom: 0.5mm;
+  font-size: 7.5pt;
+  margin-bottom: 0.3mm;
   color: #111;
 }
 
 .field-value {
   display: inline;
-  font-size: 10pt;
+  font-size: 8.5pt;
   word-break: break-word;
 }
 
 .field-value-block {
   display: flex;
   flex-direction: column;
-  gap: 0.5mm;
+  gap: 0.3mm;
 }
 
 .field-value-words {
   display: block;
-  font-size: 9.5pt;
-  letter-spacing: 0.3pt;
+  font-size: 8pt;
+  letter-spacing: 0.2pt;
 }
 
 /* ───── updated-on ───── */
 .updated-on {
-  font-size: 8pt;
-  margin: 3mm 0;
+  font-size: 7pt;
+  margin: 1.5mm 0;
   text-align: left;
 }
 
@@ -212,8 +213,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-top: 4mm;
-  gap: 10mm;
+  margin-top: 2mm;
+  gap: 8mm;
 }
 
 .footer-left {
@@ -221,16 +222,16 @@
 }
 
 .qr-code {
-  width: 25mm;
-  height: 25mm;
+  width: 20mm;
+  height: 20mm;
   display: block;
-  margin-bottom: 1mm;
+  margin-bottom: 0.5mm;
 }
 
 .qr-text {
-  font-size: 8pt;
-  max-width: 100mm;
-  line-height: 1.3;
+  font-size: 6.5pt;
+  max-width: 80mm;
+  line-height: 1.25;
 }
 
 .footer-right {
@@ -239,33 +240,33 @@
 }
 
 .signature-img {
-  width: 28mm;
+  width: 22mm;
   height: auto;
   display: block;
   margin-left: auto;
-  margin-bottom: 1mm;
+  margin-bottom: 0.5mm;
 }
 
 .signature-label {
-  font-size: 9pt;
-  margin-bottom: 1mm;
+  font-size: 7pt;
+  margin-bottom: 0.5mm;
 }
 
 .signature-title {
-  font-size: 8.5pt;
-  margin-bottom: 1mm;
+  font-size: 7pt;
+  margin-bottom: 0.5mm;
 }
 
 .signature-org {
-  font-size: 9pt;
+  font-size: 7.5pt;
 }
 
 /* ───── digital signature ───── */
 .digital-signature {
-  margin: 3mm 0;
+  margin: 1.5mm 0;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 5.5pt;
-  line-height: 1.4;
+  font-size: 5pt;
+  line-height: 1.35;
   color: #333;
 }
 
@@ -277,13 +278,13 @@
 /* ───── bottom tagline ───── */
 .bottom-tagline {
   text-align: center;
-  font-size: 10pt;
-  margin-top: 5mm;
-  padding-top: 2mm;
+  font-size: 8.5pt;
+  margin-top: 2mm;
+  padding-top: 1mm;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   PRINT STYLES (consolidated in PrintPreview.css)
+   PRINT STYLES
    ═══════════════════════════════════════════════════════════ */
 @media print {
   @page {
@@ -301,11 +302,13 @@
 
   .birth-doc {
     width: 210mm;
-    min-height: 297mm;
+    height: 297mm;
     margin: 0;
-    padding: 10mm 12mm 8mm;
+    padding: 5mm 10mm 4mm;
     box-shadow: none;
-    border: none;
+    border: 2px solid #000;
+    outline: 1px solid #000;
+    outline-offset: 3px;
     page-break-inside: avoid;
     transform: none !important;
   }
