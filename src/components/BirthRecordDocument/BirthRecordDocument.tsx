@@ -16,7 +16,7 @@
 
 import type { BirthRecordData } from "../../types";
 import leftLogo from "../../assets/left_logo.svg";
-import rightLogo from "../../assets/right_logo_final.png";
+import rightLogo from "../../assets/right_logo.png";
 import signImg from "../../assets/signpng.png";
 import "./BirthRecordDocument.css";
 
@@ -45,19 +45,20 @@ export default function BirthRecordDocument({ data }: Props) {
 
   return (
     <div className="birth-doc" id="birth-record-document">
+    <div className="birth-doc-border">
       {/* ───── header ───── */}
       <header className="doc-header">
-        <span className="serial-no">
-          अनु. क्र. {d.serialNumber || "1"}
-        </span>
-        <span className="form-no">
-          फॉम क्र. 5
-          <br />
-          <small>FORM5</small>
-        </span>
+        {/* Left: serial number text + government emblem */}
+        <div className="logo-group logo-group-left">
+          <span className="logo-label">
+            अनु. क्र. {d.serialNumber || "1"}
+            <br />
+            S.No.1
+          </span>
+          <img src={leftLogo} alt="Government Emblem" className="logo-img" />
+        </div>
 
-        <img src={leftLogo} alt="Government Emblem" className="logo-left" />
-
+        {/* Center: government headings */}
         <div className="govt-heading">
           <div className="marathi heading-line">महाराष्ट्र शासन</div>
           <div className="english heading-line bold">
@@ -73,17 +74,22 @@ export default function BirthRecordDocument({ data }: Props) {
           </div>
         </div>
 
-        <img
-          src={rightLogo}
-          alt="Right Logo"
-          className="logo-right"
-        />
+        {/* Right: form number text + right logo */}
+        <div className="logo-group logo-group-right">
+          <span className="logo-label">
+            फॉम. 5
+            <br />
+            <small>FORM5</small>
+          </span>
+          <img src={rightLogo} alt="Right Logo" className="logo-img" />
+        </div>
       </header>
 
       {/* ───── title ───── */}
       <div className="doc-title">
         <div className="marathi title-main">जन्म प्रमाणपत्र</div>
         <div className="english title-sub bold">BIRTH CERTIFICATE</div>
+        <br/>
       </div>
 
       {/* ───── legal notice (Marathi + English) ───── */}
@@ -365,6 +371,7 @@ export default function BirthRecordDocument({ data }: Props) {
         प्रत्येक जन्म आणि मृत्यूची नोंदणी सुनिश्चित करा / ENSURE
         REGISTRATION OF EVERY BIRTH AND DEATH
       </div>
+    </div>{/* /.birth-doc-border */}
     </div>
   );
 }
