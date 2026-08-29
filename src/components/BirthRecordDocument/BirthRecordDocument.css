@@ -25,7 +25,7 @@
    every text element on the certificate proportionally.
    ═══════════════════════════════════════════════════════════ */
 :root {
-  --doc-font-scale: 1.2; /* 1 = default, 1.1 = 10% larger, 0.9 = 10% smaller */
+  --doc-font-scale: 1.1; /* 1 = default, 1.1 = 10% larger, 0.9 = 10% smaller */
 }
 
 /* ───────────────────────────────────────────────────────────

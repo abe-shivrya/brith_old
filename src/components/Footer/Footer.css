@@ -1,0 +1,169 @@
+/**
+ * Footer.css – Matches the CRS gov.in Angular footer styles.
+ *
+ * Colors:
+ *   Footer bg:       #343a40 (Bootstrap .bg-dark)
+ *   Copyright bar:   #212529 (darker)
+ *   Link color:      rgba(255, 255, 255, 0.65)
+ *   Link hover:      rgba(255, 255, 255, 0.9)
+ */
+
+/* ───── Footer container ───── */
+.crs-footer {
+  background-color: #343a40;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  padding-top: 3rem;
+  padding-bottom: 1.5rem;
+}
+
+.crs-footer-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 15px;
+  margin-bottom: 0;
+}
+
+/* ───── Government logos row ───── */
+.crs-gov-sites {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.crs-gov-logo {
+  width: 80px;
+  height: 40px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.crs-gov-logo:hover {
+  opacity: 1;
+}
+
+/* Sprite background positions (approximate from CSS sprite sheet) */
+.crs-gov-data-gov {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3Edata.gov.in%3C/text%3E%3C/svg%3E");
+}
+
+.crs-gov-indiagov {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3Eindia.gov.in%3C/text%3E%3C/svg%3E");
+}
+
+.crs-gov-pmica {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3EPM India%3C/text%3E%3C/svg%3E");
+}
+
+.crs-gov-makeinindia {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3EMake in India%3C/text%3E%3C/svg%3E");
+}
+
+.crs-gov-digitalindia {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3EDigital India%3C/text%3E%3C/svg%3E");
+}
+
+.crs-gov-mygov {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+}
+
+.crs-mygov-img {
+  max-width: 60px;
+  max-height: 30px;
+}
+
+.crs-gov-iyc {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3EIYC%3C/text%3E%3C/svg%3E");
+}
+
+/* ───── Quick links ───── */
+.crs-quick-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.crs-quick-links li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.crs-quick-links li::after {
+  content: "·";
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.crs-quick-links li:last-child::after {
+  content: "";
+}
+
+.crs-quick-links-last {
+  margin-bottom: 16px;
+}
+
+.crs-quick-links span {
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.crs-quick-links span:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ───── Footer text ───── */
+.crs-footer-updated,
+.crs-footer-dev,
+.crs-footer-ministry {
+  text-align: center;
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.crs-footer-updated {
+  margin-bottom: 12px;
+}
+
+/* ───── Copyright bar ───── */
+.crs-copyright-bar {
+  background-color: #212529;
+  padding: 12px 0;
+  margin-top: 16px;
+}
+
+.crs-copyright-text {
+  text-align: center;
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  padding: 8px 0;
+}
+
+.crs-copyright-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.crs-time-icon {
+  font-size: 16px;
+  vertical-align: middle;
+}

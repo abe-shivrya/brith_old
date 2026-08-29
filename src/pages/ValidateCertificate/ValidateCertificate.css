@@ -1,0 +1,97 @@
+/**
+ * ValidateCertificate.css – Matches the CRS gov.in card+table layout.
+ *
+ * The original uses Bootstrap classes: container, col-md-6, card,
+ * table, table-responsive, table-stripped, table-bordered.
+ */
+
+/* ───── Content section ───── */
+.validate-content {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+}
+
+.validate-container {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* ───── Card ───── */
+.validate-card {
+  width: 50%;
+  margin: 40px auto;
+  padding: 25px;
+  box-shadow: 4px -5px 13px -1px grey;
+  background: #fff;
+  border-radius: 0.25rem;
+}
+
+/* ───── Table (Bootstrap .table .table-responsive .table-stripped .table-bordered) ───── */
+.validate-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.validate-table,
+.validate-table td {
+  border: 1px solid #dee2e6;
+}
+
+/* Striped rows */
+.validate-table tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.validate-td-label {
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 10px 14px;
+  vertical-align: top;
+  width: 200px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.validate-td-value {
+  padding: 10px 14px;
+  vertical-align: top;
+  word-break: break-word;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.text-left {
+  text-align: left;
+}
+
+/* ───── Responsive ───── */
+@media screen and (max-width: 767px) {
+  .validate-card {
+    width: 100%;
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  .validate-td-label {
+    white-space: normal;
+    font-size: 13px;
+  }
+
+  .validate-td-value {
+    font-size: 13px;
+  }
+}

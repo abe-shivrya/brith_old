@@ -1,23 +1,27 @@
 /**
  * App.tsx
  *
- * Root component managing the two-screen workflow:
- *   1. Data-entry form
- *   2. Document preview (with print)
+ * Root component managing routes via HashRouter:
+ *   1. / — Data-entry form + document preview (existing workflow)
+ *   2. /validate — Validate Certificate page (CRS gov.in replica)
  *
  * Form data is preserved in state so navigating back from the preview
  * does not lose entered values.
  */
 
 import { useState, useCallback } from "react";
+import { Routes, Route } from "react-router-dom";
 import type { BirthRecordData } from "./types";
 import { getInitialBirthRecordData } from "./types";
 import BirthRecordForm from "./components/BirthRecordForm/BirthRecordForm";
 import PrintPreview from "./components/PrintPreview/PrintPreview";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
+import ValidateCertificate from "./pages/ValidateCertificate/ValidateCertificate";
 
 type Screen = "form" | "preview";
 
-export default function App() {
+function MainForm() {
   const [screen, setScreen] = useState<Screen>("form");
   const [recordData, setRecordData] = useState<BirthRecordData>(
     getInitialBirthRecordData()
@@ -26,7 +30,6 @@ export default function App() {
   const handleFormSubmit = useCallback((data: BirthRecordData) => {
     setRecordData(data);
     setScreen("preview");
-    // Scroll to top when switching screens
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
@@ -46,5 +49,20 @@ export default function App() {
         <PrintPreview data={recordData} onBack={handleBack} />
       )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <>
+      <Navbar />
+      <div className="content-body">
+        <Routes>
+          <Route path="/" element={<MainForm />} />
+          <Route path="/validate" element={<ValidateCertificate />} />
+        </Routes>
+      </div>
+      <Footer />
+    </>
   );
 }
