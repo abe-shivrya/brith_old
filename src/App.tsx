@@ -1,70 +1,47 @@
 /**
  * App.tsx
  *
- * Root component managing routes via HashRouter:
- *   1. / — Data-entry form + document preview (existing workflow)
- *   2. /validate — Validate Certificate page (CRS gov.in replica)
+ * HashRouter routes:
+ *   /#/             — Choose workflow (two buttons)
+ *   /#/birth        — Birth record form
+ *   /#/birth/preview — Birth record document preview
+ *   /#/validate     — Validate certificate form
+ *   /#/validate/table — Validate certificate table
  *
- * Form data is preserved in state so navigating back from the preview
- * does not lose entered values.
+ * Form data shared via AppContext.
  */
 
-import { useState, useCallback } from "react";
 import { Routes, Route } from "react-router-dom";
-import type { BirthRecordData } from "./types";
-import { getInitialBirthRecordData } from "./types";
-import BirthRecordForm from "./components/BirthRecordForm/BirthRecordForm";
-import PrintPreview from "./components/PrintPreview/PrintPreview";
+import { AppProvider } from "./context/AppContext";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import ValidateCertificate from "./pages/ValidateCertificate/ValidateCertificate";
-import body_background from "./assets/body_bg.png"
-type Screen = "form" | "preview";
-
-function MainForm() {
-  const [screen, setScreen] = useState<Screen>("form");
-  const [recordData, setRecordData] = useState<BirthRecordData>(
-    getInitialBirthRecordData()
-  );
-
-  const handleFormSubmit = useCallback((data: BirthRecordData) => {
-    setRecordData(data);
-    setScreen("preview");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
-  const handleBack = useCallback(() => {
-    setScreen("form");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
-  return (
-    <div className="app">
-      {screen === "form" ? (
-        <BirthRecordForm
-          onSubmit={handleFormSubmit}
-          initialData={recordData}
-        />
-      ) : (
-        <PrintPreview data={recordData} onBack={handleBack} />
-      )}
-    </div>
-  );
-}
+import ChoosePage from "./pages/ChoosePage";
+import BirthFormPage from "./pages/BirthFormPage";
+import BirthPreviewPage from "./pages/BirthPreviewPage";
+import ValidateFormPage from "./pages/ValidateFormPage";
+import QRResultPage from "./pages/QRResultPage";
+import VerifyPage from "./pages/VerifyPage";
+import body_background from "./assets/body_bg.png";
+import "./App.css";
 
 export default function App() {
   return (
-    <>
+    <AppProvider>
       <Navbar />
-      <div className="content-body" style={{
-        backgroundImage: `url("${body_background}")`, 
-      }}>
+      <div
+        className="content-body"
+        style={{ backgroundImage: `url("${body_background}")` }}
+      >
         <Routes>
-          <Route path="/" element={<MainForm />} />
-          <Route path="/validate" element={<ValidateCertificate />} />
+          <Route path="/" element={<ChoosePage />} />
+          <Route path="/birth" element={<BirthFormPage />} />
+          <Route path="/birth/preview" element={<BirthPreviewPage />} />
+          <Route path="/validate" element={<ValidateFormPage />} />
+          <Route path="/qr/:id" element={<QRResultPage />} />
+          <Route path="/verify/:id" element={<VerifyPage />} />
         </Routes>
       </div>
       <Footer />
-    </>
+    </AppProvider>
   );
 }

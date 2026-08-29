@@ -85,7 +85,9 @@ export default function Navbar() {
                 <span className="material-icons">dark_mode</span>
               </button>
               <Link to="/" className="crs-login-btn">
-                Login <span className="material-icons">expand_more</span>
+                <span className="material-icons">person</span>
+                <span className="crs-login-text">Login</span>
+                <span className="material-icons">expand_more</span>
               </Link>
             </div>
           </div>

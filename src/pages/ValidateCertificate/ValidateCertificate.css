@@ -82,6 +82,128 @@
   text-align: left;
 }
 
+.validate-page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 140px);
+}
+
+.validate-section {
+  margin-bottom: 40px;
+}
+
+.validate-section-title {
+  text-align: center;
+  color: #234a7d;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 30px 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #234a7d;
+}
+
+.birth-preview-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.birth-preview-actions {
+  margin-bottom: 20px;
+}
+
+.validate-table-title {
+  text-align: center;
+  color: #234a7d;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #234a7d;
+}
+
+.validate-empty {
+  color: #ccc;
+  font-style: italic;
+}
+
+/* ───── QR Code section ───── */
+.qr-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+  padding: 24px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 4px -5px 13px -1px grey;
+  max-width: 400px;
+  width: 100%;
+}
+
+.qr-title {
+  color: #234a7d;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 16px;
+}
+
+.qr-code-box {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.qr-url {
+  font-size: 11px;
+  color: #888;
+  word-break: break-all;
+  text-align: center;
+  margin: 12px 0 4px;
+  max-width: 300px;
+}
+
+.qr-id {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 4px 0 0;
+}
+
+/* ───── Verify page record info ───── */
+.verify-record-info {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.verify-record-info p {
+  margin: 2px 0;
+}
+
+/* ───── Save success banner ───── */
+.save-success-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  padding: 12px 20px;
+  background: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  border-radius: 6px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.7);
+  text-align: center;
+}
+
 /* ───── Responsive ───── */
 @media screen and (max-width: 767px) {
   .validate-card {

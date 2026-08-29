@@ -1,13 +1,4 @@
-/**
- * Footer.css – Matches the CRS gov.in Angular footer styles.
- *
- * Colors:
- *   Footer bg:       #343a40 (Bootstrap .bg-dark)
- *   Copyright bar:   #212529 (darker)
- *   Link color:      rgba(255, 255, 255, 0.65)
- *   Link hover:      rgba(255, 255, 255, 0.9)
- */
-
+ 
 /* ───── Footer container ───── */
 .crs-footer {
   background: radial-gradient(circle,#138f78 0,#234a7d 100%);
@@ -168,7 +159,7 @@
 
 /* ───── Copyright bar ───── */
 .crs-copyright-bar {
-  background-color: #212529;
+  background-color: transparent;
   padding: 12px 0;
   margin-top: 16px;
 }
