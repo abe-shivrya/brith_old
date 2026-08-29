@@ -42,9 +42,8 @@ export default function Navbar() {
           <div className="crs-header-left" style={{
             backgroundImage: `url("${flagSvg_left}")`,
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "100% auto",
-            // transform: "scaleX(-1)"
+            backgroundPosition: "left center",
+            backgroundSize: "cover",
           }}>
             <img
               src={crsLogoLightPng}
@@ -69,8 +68,8 @@ export default function Navbar() {
           <div className="crs-header-right" style={{
             backgroundImage: `url("${flagSvg_right}")`,
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "100% auto"
+            backgroundPosition: "right center",
+            backgroundSize: "cover",
           }}>
             <div className="crs-header-actions">
               <div className="crs-font-buttons">

@@ -10,7 +10,7 @@
 
 /* ───── Footer container ───── */
 .crs-footer {
-  background-color: #343a40;
+  background: radial-gradient(circle,#138f78 0,#234a7d 100%);
   color: rgba(255, 255, 255, 0.65);
   font-family: Roboto, "Helvetica Neue", sans-serif;
   padding-top: 3rem;
@@ -50,45 +50,50 @@
   opacity: 1;
 }
 
-/* Sprite background positions (approximate from CSS sprite sheet) */
-.crs-gov-data-gov {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3Edata.gov.in%3C/text%3E%3C/svg%3E");
+/* Sprite shared base */
+.crs-sprite {
+  background-image: url("../../assets/footer-logo-sprite.png");
+  background-repeat: no-repeat;
+  opacity: 0.8;
+  cursor: pointer;
+  border-radius: 0;
 }
+.crs-sprite:hover { opacity: 1; }
 
-.crs-gov-indiagov {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3Eindia.gov.in%3C/text%3E%3C/svg%3E");
+/* Sprite positions (from CRS gov.in original CSS) */
+.crs-sprite-data-gov {
+  background-position: 0 -25px;
+  background-size: 985%;
 }
-
-.crs-gov-pmica {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3EPM India%3C/text%3E%3C/svg%3E");
+.crs-sprite-digitalindia {
+  background-position: -410px 2px;
+  background-size: 745%;
 }
-
-.crs-gov-makeinindia {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3EMake in India%3C/text%3E%3C/svg%3E");
+.crs-sprite-pmica {
+  background-position: 152px -19px;
+  background-size: 1000%;
 }
-
-.crs-gov-digitalindia {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3EDigital India%3C/text%3E%3C/svg%3E");
+.crs-sprite-indiagov {
+  background-position: -410px 2px;
+  background-size: 745%;
 }
-
-.crs-gov-mygov {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
+.crs-sprite-makeinindia {
+  background-position: -636px -1px;
+  background-size: 725%;
 }
-
-.crs-mygov-img {
-  max-width: 60px;
-  max-height: 30px;
+.crs-sprite-mygov {
+  background-position: 318px 0;
+  background-size: 700%;
 }
-
-.crs-gov-iyc {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40'%3E%3Crect width='80' height='40' fill='%23fff' rx='4'/%3E%3Ctext x='40' y='24' text-anchor='middle' font-size='10' fill='%23333'%3EIYC%3C/text%3E%3C/svg%3E");
+.crs-sprite-iyc {
+  background-position: 0 0;
+  background-size: 100%;
+  border: 1px solid rgba(255,255,255,0.3);
 }
 
 /* ───── Quick links ───── */
 .crs-quick-links {
+  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,15 +109,33 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-right: 22px;
+}
+
+.crs-quick-links li {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+  position: relative;
+  /* background-color: red; */
 }
 
 .crs-quick-links li::after {
-  content: "·";
-  color: rgba(255, 255, 255, 0.4);
+  content: "";
+  width: 2px;
+  height: 20px;
+  background-color: #fff;
+  position: absolute;
+  right: -11px; 
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .crs-quick-links li:last-child::after {
   content: "";
+  width: 0;
+  height: 0;
+  background: none;
 }
 
 .crs-quick-links-last {
@@ -120,13 +143,13 @@
 }
 
 .crs-quick-links span {
-  color: rgba(255, 255, 255, 0.65);
+  color: white;
   cursor: pointer;
   transition: color 0.15s;
 }
 
 .crs-quick-links span:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: white;
 }
 
 /* ───── Footer text ───── */
@@ -136,6 +159,7 @@
   text-align: center;
   margin: 4px 0;
   font-size: 14px;
+  color: white;
 }
 
 .crs-footer-updated {
@@ -153,14 +177,17 @@
   text-align: center;
   margin: 0;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.65);
+  color: white;
   padding: 8px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .crs-copyright-time {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
 .crs-time-icon {

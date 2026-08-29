@@ -7,7 +7,7 @@
  *   - Last updated, developer credit, copyright bar
  */
 
-import mygovSvg from "../../assets/mygov.svg";
+import footerLogoSprite from "../../assets/footer-logo-sprite.png";
 import "./Footer.css";
 
 export default function Footer() {
@@ -16,15 +16,14 @@ export default function Footer() {
       <div className="crs-footer-inner">
         {/* ───── Government logos row ───── */}
         <ul className="crs-gov-sites">
-          <li className="crs-gov-logo crs-gov-data-gov" title="data.gov.in" />
-          <li className="crs-gov-logo crs-gov-indiagov" title="india.gov.in" />
-          <li className="crs-gov-logo crs-gov-pmica" title="PM India" />
-          <li className="crs-gov-logo crs-gov-makeinindia" title="Make in India" />
-          <li className="crs-gov-logo crs-gov-digitalindia" title="Digital India" />
-          <li className="crs-gov-logo crs-gov-mygov" title="MyGov">
-            <img src={mygovSvg} alt="MyGov" className="crs-mygov-img" />
-          </li>
-          <li className="crs-gov-logo crs-gov-iyc" title="International Year of Cooperatives" />
+          <img src={footerLogoSprite  } />
+          {/* <li className="crs-gov-logo crs-sprite crs-sprite-data-gov" title="data.gov.in" />
+          <li className="crs-gov-logo crs-sprite crs-sprite-digitalindia" title="Digital India" />
+          <li className="crs-gov-logo crs-sprite crs-sprite-pmica" title="PM India" />
+          <li className="crs-gov-logo crs-sprite crs-sprite-indiagov" title="india.gov.in" />
+          <li className="crs-gov-logo crs-sprite crs-sprite-makeinindia" title="Make in India" />
+          <li className="crs-gov-logo crs-sprite crs-sprite-mygov" title="MyGov" />
+          <li className="crs-gov-logo crs-sprite crs-sprite-iyc" title="International Year of Cooperatives" /> */}
         </ul>
 
         {/* ───── Quick links ───── */}

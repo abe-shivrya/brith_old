@@ -18,7 +18,7 @@ import PrintPreview from "./components/PrintPreview/PrintPreview";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import ValidateCertificate from "./pages/ValidateCertificate/ValidateCertificate";
-
+import body_background from "./assets/body_bg.png"
 type Screen = "form" | "preview";
 
 function MainForm() {
@@ -56,7 +56,9 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <div className="content-body">
+      <div className="content-body" style={{
+        backgroundImage: `url("${body_background}")`, 
+      }}>
         <Routes>
           <Route path="/" element={<MainForm />} />
           <Route path="/validate" element={<ValidateCertificate />} />
