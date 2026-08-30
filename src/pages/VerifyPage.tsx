@@ -2,14 +2,16 @@
  * VerifyPage.tsx
  *
  * Scanned QR code lands here.
- * Loads the certificate record by ID from the URL params
+ * Fetches the certificate record from GitHub repo by ID
  * and displays the details table.
  *
  * Route: /#/verify/:id
  */
 
 import { useParams, Link } from "react-router-dom";
-import { getCertRecord } from "../utils/certStore";
+import { useState, useEffect } from "react";
+import { getCertRecord } from "../utils/githubStore";
+import type { CertRecord } from "../utils/githubStore";
 import "../pages/ValidateCertificate/ValidateCertificate.css";
 
 type CertificateField = {
@@ -32,29 +34,34 @@ function merge(en: string, mr: string): string {
 
 export default function VerifyPage() {
   const { id } = useParams<{ id: string }>();
+  const [record, setRecord] = useState<CertRecord | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  if (!id) {
+  useEffect(() => {
+    if (!id) {
+      setLoading(false);
+      setError(true);
+      return;
+    }
+    getCertRecord(id).then((r) => {
+      if (r) {
+        setRecord(r);
+      } else {
+        setError(true);
+      }
+      setLoading(false);
+    });
+  }, [id]);
+
+  if (!id || error) {
     return (
       <div className="workflow-container">
-        <h2 className="workflow-title">Invalid Link</h2>
-        <p style={{ textAlign: "center" }}>No record ID provided.</p>
-        <div style={{ textAlign: "center", marginTop: 20 }}>
-          <Link to="/" className="vc-btn vc-btn-reset">
-            ← Go to Home
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const record = getCertRecord(id);
-
-  if (!record) {
-    return (
-      <div className="workflow-container">
-        <h2 className="workflow-title">Record Not Found</h2>
+        <h2 className="workflow-title">{!id ? "Invalid Link" : "Record Not Found"}</h2>
         <p style={{ textAlign: "center" }}>
-          No certificate record found for ID: <strong>{id}</strong>
+          {!id
+            ? "No record ID provided."
+            : <>No certificate record found for ID: <strong>{id}</strong></>}
         </p>
         <p style={{ textAlign: "center", color: "#888", fontSize: 13 }}>
           This QR code may be invalid or the record was not saved.
@@ -68,7 +75,16 @@ export default function VerifyPage() {
     );
   }
 
-  const { data, createdAt } = record;
+  if (loading) {
+    return (
+      <div className="workflow-container">
+        <h2 className="workflow-title">Loading…</h2>
+        <p style={{ textAlign: "center" }}>Verifying certificate…</p>
+      </div>
+    );
+  }
+
+  const { data } = record!;
 
   const tableData: CertificateField[] = [
     { label: "Registration Number", value: data.registrationNumber },
@@ -108,20 +124,6 @@ export default function VerifyPage() {
                   ))}
                 </tbody>
               </table>
-
-              {/* Record info footer */}
-              {/* <div className="verify-record-info">
-                <p>
-                  Record ID: <strong>{id}</strong>
-                </p>
-                <p>
-                  Created:{" "}
-                  {new Date(createdAt).toLocaleString("en-IN", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
-                </p>
-              </div> */}
             </div>
           </div>
         </div>

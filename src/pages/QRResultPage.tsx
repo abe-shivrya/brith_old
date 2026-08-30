@@ -2,14 +2,17 @@
  * QRResultPage.tsx
  *
  * Shown after the validate form is submitted.
- * Displays the certificate details table.
- * QR code PNG + JSON data are saved to the output/ folder.
+ * Fetches the certificate record from GitHub repo by ID
+ * and displays the details table.
  *
  * Route: /#/qr/:id
  */
 
 import { useParams, Link } from "react-router-dom";
-import { getCertRecord } from "../utils/certStore";
+import { useState, useEffect } from "react";
+import { getCertRecord } from "../utils/githubStore";
+import { downloadCertFiles } from "../utils/certStore";
+import type { CertRecord } from "../utils/githubStore";
 import "../pages/ValidateCertificate/ValidateCertificate.css";
 
 type CertificateField = {
@@ -32,29 +35,36 @@ function merge(en: string, mr: string): string {
 
 export default function QRResultPage() {
   const { id } = useParams<{ id: string }>();
+  const [record, setRecord] = useState<CertRecord | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  if (!id) {
+  useEffect(() => {
+    if (!id) {
+      setLoading(false);
+      setError(true);
+      return;
+    }
+    getCertRecord(id).then((r) => {
+      if (r) {
+        setRecord(r);
+        // Auto-download QR code
+        // downloadCertFiles(r.id);
+      } else {
+        setError(true);
+      }
+      setLoading(false);
+    });
+  }, [id]);
+
+  if (!id || error) {
     return (
       <div className="workflow-container">
-        <h2 className="workflow-title">Invalid Link</h2>
-        <p style={{ textAlign: "center" }}>No record ID provided.</p>
-        <div style={{ textAlign: "center", marginTop: 20 }}>
-          <Link to="/validate" className="vc-btn vc-btn-reset">
-            ← Go to Validate Form
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const record = getCertRecord(id);
-
-  if (!record) {
-    return (
-      <div className="workflow-container">
-        <h2 className="workflow-title">Record Not Found</h2>
+        <h2 className="workflow-title">{!id ? "Invalid Link" : "Record Not Found"}</h2>
         <p style={{ textAlign: "center" }}>
-          No certificate record found for ID: <strong>{id}</strong>
+          {!id
+            ? "No record ID provided."
+            : <>No certificate record found for ID: <strong>{id}</strong></>}
         </p>
         <div style={{ textAlign: "center", marginTop: 20 }}>
           <Link to="/validate" className="vc-btn vc-btn-reset">
@@ -65,7 +75,16 @@ export default function QRResultPage() {
     );
   }
 
-  const { data, createdAt } = record;
+  if (loading) {
+    return (
+      <div className="workflow-container">
+        <h2 className="workflow-title">Loading…</h2>
+        <p style={{ textAlign: "center" }}>Fetching record from server…</p>
+      </div>
+    );
+  }
+
+  const { data } = record!;
 
   const tableData: CertificateField[] = [
     { label: "Registration Number", value: data.registrationNumber },
@@ -82,23 +101,7 @@ export default function QRResultPage() {
 
   return (
     <div className="workflow-container">
-
-      {/* Success banner */}
-      {/* <div className="save-success-banner">
-        <span className="material-icons" style={{ color: "#4caf50", fontSize: 22 }}>check_circle</span>
-        <span>
-          QR code saved to <strong>output/{id}_qr.png</strong> and data to <strong>output/{id}_data.json</strong>
-        </span>
-      </div> */}
-
       <div className="cert-table-wrapper">
-        {/* <div className="cert-table-actions">
-          <Link to="/validate" className="vc-btn vc-btn-reset">
-            ← New Search
-          </Link>
-        </div> */}
-
-        {/* Table */}
         <div className="validate-content">
           <div className="validate-container">
             <div className="validate-card">
@@ -118,19 +121,6 @@ export default function QRResultPage() {
                   ))}
                 </tbody>
               </table>
-
-              {/* <div className="verify-record-info">
-                <p>
-                  Record ID: <strong>{id}</strong>
-                </p>
-                <p>
-                  Created:{" "}
-                  {new Date(createdAt).toLocaleString("en-IN", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
-                </p>
-              </div> */}
             </div>
           </div>
         </div>

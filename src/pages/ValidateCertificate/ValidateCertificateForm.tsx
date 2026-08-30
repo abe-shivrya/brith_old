@@ -20,11 +20,12 @@ import "./ValidateCertificateForm.css";
 export type { CertificateFormData } from "../../types";
 
 type Props = {
+  initialData?: import("../../types").CertificateFormData;
   onSubmit: (data: import("../../types").CertificateFormData) => void;
 };
 
-export default function ValidateCertificateForm({ onSubmit }: Props) {
-  const [form, setForm] = useState(() => getInitialCertificateFormData());
+export default function ValidateCertificateForm({ initialData, onSubmit }: Props) {
+  const [form, setForm] = useState(() => initialData || getInitialCertificateFormData());
 
   /* ── Track which Marathi fields have been manually edited ── */
   const [mrTouched, setMrTouched] = useState<Record<string, boolean>>({});

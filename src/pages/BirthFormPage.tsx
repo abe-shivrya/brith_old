@@ -2,7 +2,7 @@
  * BirthFormPage.tsx
  *
  * Birth record data entry form.
- * On submit → navigates to /#/birth/preview
+ * On submit → saves to localStorage + navigates to /#/birth/preview?id=<id>
  *
  * Route: /#/birth
  */

@@ -2,10 +2,10 @@
  * BirthPreviewPage.tsx
  *
  * Print-ready birth record document preview.
- * Data comes from AppContext (set by BirthFormPage).
+ * Data comes from localStorage (via id query param) or AppContext.
  * Back button navigates to /#/birth via router.
  *
- * Route: /#/birth/preview
+ * Route: /#/birth/preview?id=<id>
  */
 
 import { Link } from "react-router-dom";
@@ -15,6 +15,8 @@ import "../components/PrintPreview/PrintPreview.css";
 
 export default function BirthPreviewPage() {
   const { birthRecordData } = useAppContext();
+
+  const data = birthRecordData;
 
   const handlePrint = () => {
     window.print();
@@ -37,7 +39,7 @@ export default function BirthPreviewPage() {
 
       {/* ─── the actual document ─── */}
       <div className="preview-document">
-        <BirthRecordDocument data={birthRecordData} />
+        <BirthRecordDocument data={data} />
       </div>
     </div>
   );

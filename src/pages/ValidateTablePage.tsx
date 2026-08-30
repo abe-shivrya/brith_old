@@ -8,7 +8,6 @@
  * Route: /#/validate/table
  */
 
-import { Link } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import "../pages/ValidateCertificate/ValidateCertificate.css";
 
