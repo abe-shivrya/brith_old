@@ -3,7 +3,7 @@
  *
  * Validate certificate data entry form.
  * On submit → saves record to GitHub repo + navigates to /#/qr/:id
- * Supports ?id=<id> query param to load existing record for editing.
+ * Supports ?id=<id> query param to load existing record.
  *
  * Route: /#/validate?id=<id> (optional)
  */
@@ -19,7 +19,8 @@ export default function ValidateFormPage() {
   const existingId = searchParams.get("id") || undefined;
 
   const [initialData, setInitialData] = useState<
-    import("../types").CertificateFormData | undefined
+    import("../types").CertificateFormData
+  | undefined
   >(undefined);
   const [loading, setLoading] = useState(!!existingId);
 
@@ -42,13 +43,11 @@ export default function ValidateFormPage() {
 
   return (
     <div className="workflow-container">
-      <h2 className="workflow-title">
-        {existingId ? "Edit Certificate" : "Validate Certificate"}
-      </h2>
+      <h2 className="workflow-title">Validate Certificate</h2>
       <ValidateCertificateForm
         initialData={initialData}
         onSubmit={async (data) => {
-          const id = await saveCertRecord(data, existingId);
+          const id = await saveCertRecord(data);
           navigate(`/qr/${id}`);
         }}
       />

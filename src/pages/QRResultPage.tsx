@@ -11,7 +11,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCertRecord } from "../utils/githubStore";
-import { downloadCertFiles } from "../utils/certStore";
 import type { CertRecord } from "../utils/githubStore";
 import "../pages/ValidateCertificate/ValidateCertificate.css";
 
@@ -48,8 +47,6 @@ export default function QRResultPage() {
     getCertRecord(id).then((r) => {
       if (r) {
         setRecord(r);
-        // Auto-download QR code
-        // downloadCertFiles(r.id);
       } else {
         setError(true);
       }

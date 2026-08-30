@@ -15,6 +15,18 @@
 import type { CertificateFormData } from "../types";
 
 const GITHUB_API = "https://api.github.com";
+
+/** Raw content URL (CORS-friendly, no auth needed for public repos) */
+function rawUrl(owner: string, repo: string, branch: string, filePath: string): string {
+  return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
+}
+
+/** Route through Vite dev proxy for API calls */
+function apiUrl(path: string): string {
+  const isDev = import.meta.env.DEV;
+  if (isDev) return `/github-api${path}`;
+  return `${GITHUB_API}${path}`;
+}
 const FILE_NAME = "validate_cert.json";
 
 function getConfig() {
@@ -52,15 +64,20 @@ function fromBase64(b64: string): string {
 }
 
 /**
- * Generate a short unique ID for records.
+ * Generate a deterministic ID from Registration Unit Code + Registration Number + DOB.
+ * Same inputs always produce the same ID.
  */
-export function generateId(): string {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let id = "";
-  for (let i = 0; i < 8; i++) {
-    id += chars.charAt(Math.floor(Math.random() * chars.length));
+function generateId(data: CertificateFormData): string {
+  const raw = `${data.unitCode}|${data.registrationNumber}|${data.dob}`;
+  // Simple hash → hex string, then take first 12 chars
+  let hash = 0;
+  for (let i = 0; i < raw.length; i++) {
+    const ch = raw.charCodeAt(i);
+    hash = ((hash << 5) - hash + ch) | 0;
   }
-  return id;
+  // Convert to positive hex and pad
+  const hex = Math.abs(hash).toString(16).padStart(8, "0");
+  return hex.slice(0, 12);
 }
 
 export type CertRecord = {
@@ -74,27 +91,44 @@ export type CertRecord = {
  * Returns the array of records (empty array if file doesn't exist).
  * Also returns the SHA needed for updates.
  */
+/**
+ * Read records from raw.githubusercontent.com (fast, CORS-friendly).
+ * Falls back to GitHub Contents API if raw URL fails (e.g. private repo).
+ */
 async function readAll(): Promise<{ records: CertRecord[]; sha?: string }> {
   const { token, owner, repo, branch, filePath } = getConfig();
 
+  // Try raw URL first (public repos, no auth needed)
+  try {
+    const url = `${rawUrl(owner, repo, branch, filePath)}?_t=${Date.now()}`;
+    const res = await fetch(url, {
+      headers: { "Cache-Control": "no-cache" },
+    });
+
+    if (res.ok) {
+      const text = await res.text();
+      const records = JSON.parse(text) as CertRecord[];
+      return { records, sha: undefined };
+    }
+  } catch {
+    // Fall through to API
+  }
+
+  // Fallback: GitHub Contents API (needed for private repos / to get SHA)
   try {
     const res = await fetch(
-      `${GITHUB_API}/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`,
+      apiUrl(`/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}&_t=${Date.now()}`),
       { headers: authHeaders(token) },
     );
 
     if (res.status === 404) return { records: [], sha: undefined };
-    if (!res.ok) {
-      console.error("GitHub API read error:", res.status, await res.text());
-      return { records: [], sha: undefined };
-    }
+    if (!res.ok) return { records: [], sha: undefined };
 
     const json = await res.json();
     const decoded = fromBase64(json.content);
     const records = JSON.parse(decoded) as CertRecord[];
     return { records, sha: json.sha };
-  } catch (err) {
-    console.error("Failed to read from GitHub:", err);
+  } catch {
     return { records: [], sha: undefined };
   }
 }
@@ -117,7 +151,7 @@ async function writeAll(records: CertRecord[], sha?: string): Promise<void> {
   if (sha) body.sha = sha;
 
   const res = await fetch(
-    `${GITHUB_API}/repos/${owner}/${repo}/contents/${filePath}`,
+    apiUrl(`/repos/${owner}/${repo}/contents/${filePath}`),
     {
       method: "PUT",
       headers: authHeaders(token),
@@ -141,31 +175,27 @@ export async function getCertRecord(id: string): Promise<CertRecord | null> {
 
 /**
  * Save a certificate record.
- * - If existingId is provided, updates that record.
- * - Otherwise, creates a new record with a fresh ID.
+ * ID is generated from Registration Unit Code + Registration Number + DOB.
+ * If a record with the same ID already exists, returns the existing ID.
  * Returns the record ID.
  */
 export async function saveCertRecord(
   data: CertificateFormData,
-  existingId?: string,
 ): Promise<string> {
   const { records, sha } = await readAll();
 
-  let id = existingId || generateId();
+  // Generate deterministic ID from registration fields
+  const id = generateId(data);
 
-  if (existingId) {
-    // Update existing record
-    const idx = records.findIndex((r) => r.id === existingId);
-    if (idx !== -1) {
-      records[idx] = { ...records[idx], data };
-    } else {
-      // ID not found — add as new
-      records.push({ id, data, createdAt: new Date().toISOString() });
-    }
-  } else {
-    // Add new record
-    records.push({ id, data, createdAt: new Date().toISOString() });
+  // Check if a record with this ID already exists
+  const existing = records.find((r) => r.id === id);
+  if (existing) {
+    // Already exists — return it, don't create duplicate
+    return id;
   }
+
+  // New record — add it
+  records.push({ id, data, createdAt: new Date().toISOString() });
 
   await writeAll(records, sha);
   return id;
