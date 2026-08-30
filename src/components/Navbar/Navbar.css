@@ -1,5 +1,3 @@
-
-
 /* ───── Header top bar ───── */
 .crs-header-top {
   display: flex;
@@ -15,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  align-items: center;
+  align-items: stretch;
   height: fit-content;
 }
 
@@ -36,7 +34,7 @@
   position: relative;
   flex: 1;
   display: flex;
-  overflow: hidden;
+  overflow: visible;
   align-items: center;
   justify-content: right;
   height: 100%;
@@ -47,7 +45,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  /* width: 100%; */
   height: 20%;
   object-fit: cover;
   object-position: right !important;
@@ -66,9 +63,6 @@
   position: relative;
   z-index: 1;
   align-items: center;
-  /* padding: 4px 12px; */
-  
-  /* transform: scaleY(-1); */
 }
 
 .crs-left-content {
@@ -82,7 +76,6 @@
 /* ───── Center emblem ───── */
 .crs-emblem {
   display: flex;
-  flex: 1;
   align-items: center;
   justify-content: center;
   padding: 0 4px;
@@ -122,7 +115,6 @@
 /* ───── Action buttons ───── */
 .crs-header-actions {
   display: flex; 
-  /* width: 100%; */
   padding: 1%;
   align-items: center;
   gap: 8px;
@@ -208,6 +200,15 @@
   white-space: nowrap;
 }
 
+/* ───── Hamburger button (hidden on desktop) ───── */
+.crs-hamburger-btn {
+  display: none;
+}
+
+.crs-hamburger-wrapper {
+  position: relative;
+}
+
 /* ───── Navigation bar ───── */
 .crs-nav-bar {
   display: flex;
@@ -236,7 +237,40 @@
 .crs-nav-btn:hover { background: rgba(255,255,255,.1); }
 .crs-nav-btn .material-icons { font-size: 18px; }
 
-/* ───── Responsive ───── */
+/* ───── Mobile dropdown menu ───── */
+.crs-mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+  border-radius: 4px;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 220px;
+  z-index: 100;
+}
+
+.crs-mobile-menu-item {
+  display: flex;
+  align-items: center;
+  color: #333;
+  text-decoration: none;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+  transition: background .15s;
+  cursor: pointer;
+  z-index: 100000;
+}
+
+.crs-mobile-menu-item:hover {
+  background: #f5f5f5;
+}
+
+/* ───── Responsive: tablet ───── */
 @media screen and (max-width: 991px) {
   .crs-font-buttons { display: none; }
   .crs-logo-desktop { display: none; }
@@ -244,16 +278,15 @@
   .crs-nav-btn { padding: 10px 12px; font-size: 13px; }
 }
 
+/* ───── Responsive: mobile ───── */
 @media screen and (max-width: 767px) {
   .crs-header-top {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
     flex-wrap: nowrap;
   }
 
   .crs-header-content {
     flex-wrap: nowrap;
-    min-width: max-content;
   }
 
   .crs-header-left {
@@ -261,7 +294,7 @@
   }
 
   .crs-logo-mobile { max-width: 120px; }
-  .crs-azadi-logo { max-width: 45px; }
+  .crs-azadi-logo { max-width: 50px; }
 
   .crs-emblem {
     flex-shrink: 0;
@@ -289,23 +322,57 @@
   /* Dark/light toggle stays visible */
   .crs-icon-btn { display: flex; }
 
-  .crs-nav-bar {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    flex-wrap: nowrap;
-    scrollbar-width: thin;
+  /* Show hamburger, match login button theme */
+  .crs-hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #7391ba, #234a7d);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: 6px;
+    min-width: 36px;
+    min-height: 36px;
+    cursor: pointer;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    transition: box-shadow .15s;
   }
 
-  .crs-nav-btn {
-    flex-shrink: 0;
-    padding: 10px 10px;
-    font-size: 12px;
+  .crs-hamburger-btn:hover {
+    box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  }
+
+  .crs-hamburger-btn .material-icons {
+    font-size: 22px;
+  }
+
+  /* Hide desktop nav bar */
+  .crs-nav-bar { display: none; }
+
+  /* Show mobile dropdown menu */  .crs-mobile-menu {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 9999;
   }
 }
 
+/* ───── Responsive: small mobile ───── */
 @media screen and (max-width: 576px) {
-  .crs-logo-mobile { max-width: 100px; }
-  .crs-azadi-logo { max-width: 35px; }
-  .crs-header-left img { margin-right: 4%; }
-  .crs-nav-btn { padding: 8px 8px; font-size: 11px; }
+  .crs-logo-mobile { 
+    max-width: 50px;
+    max-height: 50px;
+  }
+  .crs-azadi-logo {
+     max-width: 50px;
+   }
+  .crs-header-left img { 
+    margin-right: 4%; 
+  } 
+  .crs-mobile-menu-item {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
 }

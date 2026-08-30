@@ -1,7 +1,6 @@
- 
 /* ───── Footer container ───── */
 .crs-footer {
-  background: radial-gradient(circle,#138f78 0,#234a7d 100%);
+  background: radial-gradient(circle, #138f78 0, #234a7d 100%);
   color: rgba(255, 255, 255, 0.65);
   font-family: Roboto, "Helvetica Neue", sans-serif;
   padding-top: 3rem;
@@ -27,64 +26,30 @@
   flex-wrap: wrap;
 }
 
+.crs-gov-sites img {
+  max-height: 60px;
+  opacity: 0.85;
+}
+
+.crs-gov-logo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .crs-gov-logo {
-  width: 80px;
-  height: 40px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.7;
-  cursor: pointer;
+  width: 165px;
+  height: 50px;
+  opacity: 0.85;
+  transition: opacity 0.2s;
 }
 
 .crs-gov-logo:hover {
   opacity: 1;
 }
 
-/* Sprite shared base */
-.crs-sprite {
-  background-image: url("../../assets/footer-logo-sprite.png");
-  background-repeat: no-repeat;
-  opacity: 0.8;
-  cursor: pointer;
-  border-radius: 0;
-}
-.crs-sprite:hover { opacity: 1; }
-
-/* Sprite positions (from CRS gov.in original CSS) */
-.crs-sprite-data-gov {
-  background-position: 0 -25px;
-  background-size: 985%;
-}
-.crs-sprite-digitalindia {
-  background-position: -410px 2px;
-  background-size: 745%;
-}
-.crs-sprite-pmica {
-  background-position: 152px -19px;
-  background-size: 1000%;
-}
-.crs-sprite-indiagov {
-  background-position: -410px 2px;
-  background-size: 745%;
-}
-.crs-sprite-makeinindia {
-  background-position: -636px -1px;
-  background-size: 725%;
-}
-.crs-sprite-mygov {
-  background-position: 318px 0;
-  background-size: 700%;
-}
-.crs-sprite-iyc {
-  background-position: 0 0;
-  background-size: 100%;
-  border: 1px solid rgba(255,255,255,0.3);
-}
-
 /* ───── Quick links ───── */
 .crs-quick-links {
-  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,14 +66,7 @@
   align-items: center;
   gap: 8px;
   margin-right: 22px;
-}
-
-.crs-quick-links li {
-  display: flex;
-  align-items: center;
-  gap: 8px; 
   position: relative;
-  /* background-color: red; */
 }
 
 .crs-quick-links li::after {
@@ -117,7 +75,7 @@
   height: 20px;
   background-color: #fff;
   position: absolute;
-  right: -11px; 
+  right: -11px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -133,14 +91,21 @@
   margin-bottom: 16px;
 }
 
-.crs-quick-links span {
+.crs-quick-links a {
   color: white;
   cursor: pointer;
-  transition: color 0.15s;
+  transition: color 0.15s, text-decoration 0.15s;
+  text-decoration: none;
 }
 
-.crs-quick-links span:hover {
+.crs-quick-links a:hover {
   color: white;
+  text-decoration: underline;
+}
+
+.crs-link-label {
+  color: white;
+  cursor: default;
 }
 
 /* ───── Footer text ───── */
@@ -182,6 +147,88 @@
 }
 
 .crs-time-icon {
-  font-size: 16px;
+  font-size: 16px !important;
   vertical-align: middle;
+}
+
+/* ═══════════════════════════════════════════════
+   Responsive — Tablet (≤ 768px)
+   ═══════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .crs-footer {
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+  }
+
+  .crs-gov-logo {
+    width: 120px;
+    height: 36px;
+  }
+
+  .crs-quick-links {
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  .crs-quick-links li {
+    margin-right: 14px;
+  }
+
+  .crs-quick-links li::after {
+    height: 14px;
+    right: -8px;
+  }
+
+  .crs-footer-updated,
+  .crs-footer-dev,
+  .crs-footer-ministry {
+    font-size: 12px;
+  }
+
+  .crs-copyright-text {
+    font-size: 12px;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   Responsive — Mobile (≤ 480px)
+   ═══════════════════════════════════════════════ */
+@media screen and (max-width: 480px) {
+  .crs-footer {
+    padding-top: 1.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .crs-gov-logo {
+    width: 100px;
+    height: 30px;
+  }
+
+  .crs-quick-links {
+    /* flex-direction: column; */
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  .crs-quick-links li {
+    margin-right: 0;
+  }
+
+  .crs-quick-links li::after {
+    /* display: none; */
+  }
+
+  .crs-footer-updated,
+  .crs-footer-dev,
+  .crs-footer-ministry {
+    font-size: 11px;
+    padding: 0 10px;
+  }
+
+  .crs-copyright-text {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
 }

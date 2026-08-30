@@ -10,6 +10,7 @@
  *   .crs-nav-bar
  */
 
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import flagSvg_left from "../../assets/flag_left.svg";
@@ -22,29 +23,35 @@ import azadiLogoPng from "../../assets/azadi-logo.png";
 import "./Navbar.css";
 
 export default function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const hamburgerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (hamburgerRef.current && !hamburgerRef.current.contains(e.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [mobileMenuOpen]);
+
   return (
     <div className="crs-header">
       {/* ───── Top header bar ───── */}
       <div className="crs-header-top">
-        {/* Flag backgrounds + emblem (behind content) */}
-        {/* <div className="crs-flag-bg-left">
-          <img src={flagSvg} alt="Flag BG" />
-        </div>
-        <div className="crs-flag-bg-right">
-          <img src={flagSvg} alt="Flag BG" />
-        </div>
-        <div className="crs-emblem">
-          <img src={emblemPng} alt="National Emblem" width="105" height="154" />
-        </div> */}
-
         {/* Content row — on top of flags */}
         <div className="crs-header-content">
-          <div className="crs-header-left" style={{
-            backgroundImage: `url("${flagSvg_left}")`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "left center",
-            backgroundSize: "cover",
-          }}>
+          <div
+            className="crs-header-left"
+            style={{
+              backgroundImage: `url("${flagSvg_left}")`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "right center",
+              backgroundSize: "cover",
+            }}
+          >
             <img
               src={crsLogoLightPng}
               alt="Birth and Death Registration Logo"
@@ -55,7 +62,6 @@ export default function Navbar() {
               alt="Birth and Death Registration Logo"
               className="crs-logo-mobile"
             />
-            {/* <span className="crs-spacer" /> */}
             <img
               src={azadiLogoPng}
               alt="75th Anniversary of Indian Independence"
@@ -63,25 +69,35 @@ export default function Navbar() {
             />
           </div>
           <div className="crs-emblem">
-          <img src={emblemPng} alt="National Emblem" width="35" height="154" />
-        </div> 
-          <div className="crs-header-right" style={{
-            backgroundImage: `url("${flagSvg_right}")`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "right center",
-            backgroundSize: "cover",
-          }}>
+            <img src={emblemPng} alt="National Emblem" width="35" height="154" />
+          </div>
+          <div
+            className="crs-header-right"
+            style={{
+              backgroundImage: `url("${flagSvg_right}")`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+            }}
+          >
             <div className="crs-header-actions">
               <div className="crs-font-buttons">
                 <button type="button" className="crs-font-btn">
-                  <span className="fs-8">A<sup>-</sup></span>
+                  <span className="fs-8">
+                    A<sup>-</sup>
+                  </span>
                 </button>
-                <button type="button" className="crs-font-btn">A</button>
+                <button type="button" className="crs-font-btn">
+                  A
+                </button>
                 <button type="button" className="crs-font-btn">
                   A<sup>+</sup>
                 </button>
               </div>
-              <button type="button" className="crs-icon-btn" title="Toggle theme">
+              <button
+                type="button"
+                className="crs-icon-btn"
+                title="Toggle theme"
+              >
                 <span className="material-icons">dark_mode</span>
               </button>
               <Link to="/" className="crs-login-btn">
@@ -89,14 +105,42 @@ export default function Navbar() {
                 <span className="crs-login-text">Login</span>
                 <span className="material-icons">expand_more</span>
               </Link>
+              {/* Hamburger button — visible only on mobile */}
+              <div className="crs-hamburger-wrapper" ref={hamburgerRef}>
+                <button
+                  type="button"
+                  className="crs-hamburger-btn"
+                  title="Menu"
+                  onClick={() => setMobileMenuOpen((prev) => !prev)}
+                >
+                  <span className="material-icons">
+                    {mobileMenuOpen ? "close" : "menu"}
+                  </span>
+                </button>
+                {/* Mobile dropdown — positioned below hamburger */}
+                {mobileMenuOpen && (
+                  <div className="crs-mobile-menu">
+                    <Link to="/" className="crs-mobile-menu-item" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+                    <span className="crs-mobile-menu-item">About CRS</span>
+                    <span className="crs-mobile-menu-item">RBD Act and Model Rules</span>
+                    <span className="crs-mobile-menu-item">Circulars</span>
+                    <span className="crs-mobile-menu-item">Forms</span>
+                    <span className="crs-mobile-menu-item">Training Manuals</span>
+                    <span className="crs-mobile-menu-item">FAQs</span>
+                    <span className="crs-mobile-menu-item">How To Apply</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ───── Navigation bar ───── */}
+      {/* ───── Navigation bar (desktop) ───── */}
       <div className="crs-nav-bar">
-        <Link to="/" className="crs-nav-btn">Home</Link>
+        <Link to="/" className="crs-nav-btn">
+          Home
+        </Link>
         <span className="crs-nav-btn">About CRS</span>
         <span className="crs-nav-btn">
           RBD Act and Model Rules
@@ -114,6 +158,8 @@ export default function Navbar() {
         </span>
         <span className="crs-nav-btn crs-nav-howto">How To Apply</span>
       </div>
+
+
     </div>
   );
 }
