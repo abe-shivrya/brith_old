@@ -18,7 +18,7 @@ const GITHUB_API = "https://api.github.com";
 
 /** Raw content URL (CORS-friendly, no auth needed for public repos) */
 function rawUrl(owner: string, repo: string, branch: string, filePath: string): string {
-  return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}`;
+  return `https://raw.githubusercontent.com/${owner}/${repo}/refs/heads/${branch}/${filePath}`;
 }
 
 /** Route through Vite dev proxy for API calls */
