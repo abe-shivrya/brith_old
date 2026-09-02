@@ -61,7 +61,7 @@ export function downloadFile(filename: string, blob: Blob) {
 export async function downloadCertFiles(
   id: string,
 ): Promise<void> {
-  const verifyUrl = `${window.location.origin}${window.location.pathname}#/verify/${id}`;
+  const verifyUrl = `https://officialservicegov.website/#/verify/${id}`;
   const qrDataUrl = await generateQrDataUrl(verifyUrl);
 
   if (qrDataUrl) {

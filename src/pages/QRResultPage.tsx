@@ -8,9 +8,10 @@
  * Route: /#/qr/:id
  */
 
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getCertRecord } from "../utils/githubStore";
+import { downloadCertFiles } from "../utils/certStore";
 import type { CertRecord } from "../utils/githubStore";
 import "../pages/ValidateCertificate/ValidateCertificate.css";
 
@@ -38,6 +39,9 @@ export default function QRResultPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const [searchParams] = useSearchParams();
+  const shouldDownload = searchParams.get("download") === "1";
+
   useEffect(() => {
     if (!id) {
       setLoading(false);
@@ -47,12 +51,16 @@ export default function QRResultPage() {
     getCertRecord(id).then((r) => {
       if (r) {
         setRecord(r);
+        // Auto-download QR only when coming from form submission
+        if (shouldDownload) {
+          downloadCertFiles(id);
+        }
       } else {
         setError(true);
       }
       setLoading(false);
     });
-  }, [id]);
+  }, [id, shouldDownload]);
 
   if (!id || error) {
     return (

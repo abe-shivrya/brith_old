@@ -48,7 +48,7 @@ export default function ValidateFormPage() {
         initialData={initialData}
         onSubmit={async (data) => {
           const id = await saveCertRecord(data);
-          navigate(`/qr/${id}`);
+          navigate(`/qr/${id}?download=1`);
         }}
       />
     </div>

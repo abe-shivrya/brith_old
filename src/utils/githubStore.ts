@@ -18,7 +18,9 @@ const GITHUB_API = "https://api.github.com";
 
 /** Raw content URL (CORS-friendly, no auth needed for public repos) */
 function rawUrl(owner: string, repo: string, branch: string, filePath: string): string {
-  return `https://raw.githubusercontent.com/${owner}/${repo}/refs/heads/${branch}/${filePath}`;
+  let url = `https://raw.githubusercontent.com/${owner}/${repo}/refs/heads/${branch}/${filePath}`
+  console.log(`URL : ${url}`)
+  return url;
 }
 
 /** Route through Vite dev proxy for API calls */
@@ -97,24 +99,25 @@ export type CertRecord = {
  */
 async function readAll(): Promise<{ records: CertRecord[]; sha?: string }> {
   const { token, owner, repo, branch, filePath } = getConfig();
+  const isDev = import.meta.env.DEV;
 
-  // Try raw URL first (public repos, no auth needed)
-  try {
-    const url = `${rawUrl(owner, repo, branch, filePath)}?_t=${Date.now()}`;
-    const res = await fetch(url, {
-      headers: { "Cache-Control": "no-cache" },
-    });
-
-    if (res.ok) {
-      const text = await res.text();
-      const records = JSON.parse(text) as CertRecord[];
-      return { records, sha: undefined };
+  // On dev: use GitHub Contents API via Vite proxy (raw.githubusercontent.com blocks CORS from localhost)
+  // On prod: try raw URL first (fast, no auth needed for public repos), fallback to API
+  if (!isDev) {
+    try {
+      const url = `${rawUrl(owner, repo, branch, filePath)}?_t=${Date.now()}`;
+      const res = await fetch(url);
+      if (res.ok) {
+        const text = await res.text();
+        const records = JSON.parse(text) as CertRecord[];
+        return { records, sha: undefined };
+      }
+    } catch {
+      // Fall through to API
     }
-  } catch {
-    // Fall through to API
   }
 
-  // Fallback: GitHub Contents API (needed for private repos / to get SHA)
+  // GitHub Contents API (via Vite proxy on dev, direct on prod)
   try {
     const res = await fetch(
       apiUrl(`/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}&_t=${Date.now()}`),
