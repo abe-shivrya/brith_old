@@ -6,13 +6,15 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+.git_old
 node_modules
 dist
 dist-ssr
 *.local
 .env
 .env.*
+.git_*
+git_new
 
 # Editor directories and files
 .vscode/*
