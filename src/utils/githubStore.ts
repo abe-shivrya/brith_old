@@ -16,13 +16,6 @@ import type { CertificateFormData } from "../types";
 
 const GITHUB_API = "https://api.github.com";
 
-/** Raw content URL (CORS-friendly, no auth needed for public repos) */
-function rawUrl(owner: string, repo: string, branch: string, filePath: string): string {
-  let url = `https://raw.githubusercontent.com/${owner}/${repo}/refs/heads/${branch}/${filePath}`
-  console.log(`URL : ${url}`)
-  return url;
-}
-
 /** Route through Vite dev proxy for API calls */
 function apiUrl(path: string): string {
   const isDev = import.meta.env.DEV;
@@ -99,26 +92,7 @@ export type CertRecord = {
  */
 async function readAll(): Promise<{ records: CertRecord[]; sha?: string }> {
   const { token, owner, repo, branch, filePath } = getConfig();
-  const isDev = import.meta.env.DEV;
 
-  // On prod: try raw URL first for fast content read
-  if (!isDev) {
-    try {
-      const url = `${rawUrl(owner, repo, branch, filePath)}?_t=${Date.now()}`;
-      const res = await fetch(url);
-      if (res.ok) {
-        const text = await res.text();
-        const records = JSON.parse(text) as CertRecord[];
-        // Fetch SHA separately (needed for updates)
-        const sha = await fetchFileSha();
-        return { records, sha };
-      }
-    } catch {
-      // Fall through to API
-    }
-  }
-
-  // GitHub Contents API (via Vite proxy on dev, direct on prod)
   try {
     const res = await fetch(
       apiUrl(`/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}&_t=${Date.now()}`),
@@ -137,23 +111,7 @@ async function readAll(): Promise<{ records: CertRecord[]; sha?: string }> {
   }
 }
 
-/** Fetch just the SHA of the file (lightweight GET via Contents API) */
-async function fetchFileSha(): Promise<string | undefined> {
-  const { token, owner, repo, branch, filePath } = getConfig();
-  try {
-    const res = await fetch(
-      apiUrl(`/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`),
-      { headers: authHeaders(token) },
-    );
-    if (res.ok) {
-      const json = await res.json();
-      return json.sha;
-    }
-  } catch {
-    // File doesn't exist yet, no SHA
-  }
-  return undefined;
-}
+
 
 /**
  * Write the full records array to validate_cert.json on GitHub.
