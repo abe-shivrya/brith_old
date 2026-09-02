@@ -187,3 +187,8 @@ a {
     min-height: auto;
   }
 }
+
+
+.nl-wrap {
+  display: none;
+}
