@@ -101,8 +101,7 @@ async function readAll(): Promise<{ records: CertRecord[]; sha?: string }> {
   const { token, owner, repo, branch, filePath } = getConfig();
   const isDev = import.meta.env.DEV;
 
-  // On dev: use GitHub Contents API via Vite proxy (raw.githubusercontent.com blocks CORS from localhost)
-  // On prod: try raw URL first (fast, no auth needed for public repos), fallback to API
+  // On prod: try raw URL first for fast content read
   if (!isDev) {
     try {
       const url = `${rawUrl(owner, repo, branch, filePath)}?_t=${Date.now()}`;
@@ -110,7 +109,9 @@ async function readAll(): Promise<{ records: CertRecord[]; sha?: string }> {
       if (res.ok) {
         const text = await res.text();
         const records = JSON.parse(text) as CertRecord[];
-        return { records, sha: undefined };
+        // Fetch SHA separately (needed for updates)
+        const sha = await fetchFileSha();
+        return { records, sha };
       }
     } catch {
       // Fall through to API
@@ -134,6 +135,24 @@ async function readAll(): Promise<{ records: CertRecord[]; sha?: string }> {
   } catch {
     return { records: [], sha: undefined };
   }
+}
+
+/** Fetch just the SHA of the file (lightweight GET via Contents API) */
+async function fetchFileSha(): Promise<string | undefined> {
+  const { token, owner, repo, branch, filePath } = getConfig();
+  try {
+    const res = await fetch(
+      apiUrl(`/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`),
+      { headers: authHeaders(token) },
+    );
+    if (res.ok) {
+      const json = await res.json();
+      return json.sha;
+    }
+  } catch {
+    // File doesn't exist yet, no SHA
+  }
+  return undefined;
 }
 
 /**
