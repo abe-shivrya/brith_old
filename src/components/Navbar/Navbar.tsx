@@ -22,7 +22,12 @@ import azadiLogoPng from "../../assets/azadi-logo.png";
 
 import "./Navbar.css";
 
-export default function Navbar() {
+type NavbarProps = {
+  isAuthenticated?: boolean;
+  onLogout?: () => void;
+};
+
+export default function Navbar({ isAuthenticated, onLogout }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const hamburgerRef = useRef<HTMLDivElement>(null);
 
@@ -100,11 +105,23 @@ export default function Navbar() {
               >
                 <span className="material-icons">dark_mode</span>
               </button>
-              <Link to="/" className="crs-login-btn">
-                <span className="material-icons">person</span>
-                <span className="crs-login-text">Login</span>
-                <span className="material-icons">expand_more</span>
-              </Link>
+              {isAuthenticated ? (
+                <button
+                  type="button"
+                  className="crs-login-btn"
+                  title="Logout"
+                  onClick={onLogout}
+                >
+                  <span className="material-icons">logout</span>
+                  <span className="crs-login-text">Logout</span>
+                </button>
+              ) : (
+                <Link to="/" className="crs-login-btn">
+                  <span className="material-icons">person</span>
+                  <span className="crs-login-text">Login</span>
+                  <span className="material-icons">expand_more</span>
+                </Link>
+              )}
               {/* Hamburger button — visible only on mobile */}
               <div className="crs-hamburger-wrapper" ref={hamburgerRef}>
                 <button

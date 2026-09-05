@@ -188,7 +188,16 @@ a {
   }
 }
 
-
-.nl-wrap {
+/* ───── Hide the Netlify-injected HUD / badge iframes ─────
+ * Netlify injects a script at deploy time that mounts an iframe
+ * (id="nl-badge-frame" for the public badge, id="nl-hud-frame" for
+ * the owner toolbar). The badge content lives in a sandboxed srcdoc
+ * iframe, so parent CSS can't touch it — hide the iframe element
+ * itself instead. */
+#nl-badge-frame,
+#nl-hud-frame {
   display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
 }
